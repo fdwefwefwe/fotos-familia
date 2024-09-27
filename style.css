@@ -2,32 +2,78 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #c71d23;
+}
+
+button {
+    background-color: #c71d23;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #a0161a;
 }
 
 #foldersContainer {
     margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .folder {
     background-color: #fff;
     border: 2px solid #c71d23;
     border-radius: 5px;
-    padding: 10px;
+    padding: 15px;
     margin: 10px;
-    display: inline-block;
-    position: relative;
+    width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .folder h3 {
     margin: 0;
+    color: #333;
 }
 
 .addFileBtn {
     margin-top: 10px;
     display: block;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.addFileBtn:hover {
+    background-color: #218838;
 }
 
 .file-input {
     margin-top: 10px;
     display: none;
+}
+
+.filesContainer {
+    margin-top: 10px;
+    text-align: left;
+}
+
+.filesContainer div {
+    background-color: #e9ecef;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 5px 0;
 }
