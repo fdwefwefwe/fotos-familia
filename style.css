@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+#foldersContainer {
+    margin-top: 20px;
+}
+
+.folder {
+    background-color: #fff;
+    border: 2px solid #c71d23;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+    position: relative;
+}
+
+.folder h3 {
+    margin: 0;
+}
+
+.addFileBtn {
+    margin-top: 10px;
+    display: block;
+}
+
+.file-input {
+    margin-top: 10px;
+    display: none;
+}
