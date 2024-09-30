@@ -1,5 +1,3 @@
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get, child } from "firebase/database";
 
 // Inicializa Firebase com as variáveis globais
 const firebaseConfig = {
