@@ -1,60 +1,89 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
     text-align: center;
     margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
     padding: 20px;
+    background-color: #c71d23;
+    color: white;
 }
 
 h1 {
-    color: #c71d23;
+    margin: 0;
+    font-size: 2rem;
 }
 
-button {
+main {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.btn {
     background-color: #c71d23;
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-button:hover {
+.btn:hover {
     background-color: #a0161a;
+    transform: scale(1.05);
 }
 
-#foldersContainer {
+.folders-wrapper {
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 15px;
 }
 
 .folder {
     background-color: #fff;
     border: 2px solid #c71d23;
-    border-radius: 5px;
-    padding: 15px;
-    margin: 10px;
-    width: 200px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    width: 220px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
 }
 
 .folder h3 {
-    margin: 0;
-    color: #333;
+    margin-bottom: 10px;
+    color: #c71d23;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 8px;
 }
 
 .addFileBtn {
     margin-top: 10px;
-    display: block;
     background-color: #28a745;
     color: white;
     border: none;
     padding: 8px;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .addFileBtn:hover {
@@ -63,17 +92,23 @@ button:hover {
 
 .file-input {
     margin-top: 10px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     display: none;
 }
 
 .filesContainer {
-    margin-top: 10px;
+    margin-top: 15px;
     text-align: left;
 }
 
 .filesContainer div {
-    background-color: #e9ecef;
-    padding: 6px;
-    border-radius: 3px;
-    margin: 5px 0;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    overflow-wrap: break-word;
 }
