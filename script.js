@@ -28,22 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Outras funções como createFolder, addFile, saveFolders, etc.
-
+// Função para criar uma nova pasta
 function createFolder(name) {
     const folder = document.createElement('div');
     folder.classList.add('folder');
     folder.innerHTML = `
         <h3>${name}</h3>
         <button class="addFileBtn btn">Adicionar Arquivo</button>
-        <input type="text" class="file-input" placeholder="Insira o link da imagem ou URL">
+        <input type="text" class="file-input" placeholder="Insira o link da imagem ou URL" style="display:none;">
         <div class="filesContainer"></div>
     `;
     
     document.getElementById('foldersContainer').appendChild(folder);
-}
 
-
+    // Referências aos elementos recém-criados
     const addFileBtn = folder.querySelector('.addFileBtn');
     const fileInput = folder.querySelector('.file-input');
     const filesContainer = folder.querySelector('.filesContainer');
