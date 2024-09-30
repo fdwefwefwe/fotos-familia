@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, get, child, push } from "firebase/database";
 
-// Configuração do Firebase
+// Inicializa Firebase com as variáveis globais
 const firebaseConfig = {
   apiKey: "AIzaSyBAYby8HRcTsjrlN7P6v7IOaQiMia1nf1k",
   authDomain: "fotos-be32b.firebaseapp.com",
@@ -13,12 +13,15 @@ const firebaseConfig = {
   measurementId: "G-VMEFCW0JBM"
 };
 
-// Inicializa Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+// Inicializar Firebase
+const app = firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
 
-// Carrega as pastas do Firebase ao carregar a página
+// Carregar pastas do Firebase
 document.addEventListener('DOMContentLoaded', loadFoldersFromFirebase);
+
+// Outras funções como createFolder, addFile, saveFolders, etc.
+
 
 // Função para criar nova pasta
 function createFolder(name) {
