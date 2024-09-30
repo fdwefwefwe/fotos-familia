@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get, child, push } from "firebase/database";
+import { getDatabase, ref, set, get, child } from "firebase/database";
 
 // Inicializa Firebase com as variáveis globais
 const firebaseConfig = {
@@ -11,26 +11,32 @@ const firebaseConfig = {
     messagingSenderId: "629428664615",
     appId: "1:629428664615:web:371af57a06f9c5b2fad102",
     measurementId: "G-VMEFCW0JBM"
-  };
+};
 
-  // Inicializar o Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
+// Inicializar o Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 // Carregar pastas do Firebase
-document.addEventListener('DOMContentLoaded', loadFoldersFromFirebase);
+document.addEventListener('DOMContentLoaded', () => {
+    loadFoldersFromFirebase();
+    document.getElementById('newFolderBtn').addEventListener('click', () => {
+        const folderName = prompt("Digite o nome da nova pasta:");
+        if (folderName) {
+            createFolder(folderName);
+        }
+    });
+});
 
 // Outras funções como createFolder, addFile, saveFolders, etc.
 
-
-// Função para criar nova pasta
 function createFolder(name) {
     const folder = document.createElement('div');
     folder.classList.add('folder');
     folder.innerHTML = `
         <h3>${name}</h3>
         <button class="addFileBtn btn">Adicionar Arquivo</button>
-        <input type="text" class="file-input" placeholder="Insira o link da imagem ou URL">
+        <input type="text" class="file-input" placeholder="Insira o link da imagem ou URL" style="display:none;">
         <div class="filesContainer"></div>
     `;
     
