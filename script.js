@@ -10,13 +10,13 @@ document.getElementById('newFolderBtn').addEventListener('click', function () {
 function createFolder(name) {
     const folder = document.createElement('div');
     folder.classList.add('folder');
-    folder.innerHTML = 
+    folder.innerHTML = `
         <h3>${name}</h3>
         <button class="addFileBtn btn">Adicionar Arquivo</button>
-        <input type="text" class="file-input" placeholder="Insira o link da imagem ou URL">
+        <input type="text" class="file-input" placeholder="Insira o link da imagem ou URL" style="display: none;">
         <div class="filesContainer"></div>
-    ;
-    
+    `;
+
     document.getElementById('foldersContainer').appendChild(folder);
 
     const addFileBtn = folder.querySelector('.addFileBtn');
@@ -44,7 +44,7 @@ function createFolder(name) {
 
 function addFile(url, container) {
     const fileItem = document.createElement('div');
-    fileItem.innerHTML = <a href="${url}" target="_blank">${url}</a>;
+    fileItem.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
     container.appendChild(fileItem);
 }
 
