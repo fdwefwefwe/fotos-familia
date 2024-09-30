@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get, child } from "firebase/database";
+import { getDatabase, ref, set, get, child, push } from "firebase/database";
 
-// Your web app's Firebase configuration
+// Configuração do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBAYby8HRcTsjrlN7P6v7IOaQiMia1nf1k",
   authDomain: "fotos-be32b.firebaseapp.com",
@@ -13,14 +13,14 @@ const firebaseConfig = {
   measurementId: "G-VMEFCW0JBM"
 };
 
-// Initialize Firebase
+// Inicializa Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Carregar pastas do Firebase ao carregar a página
+// Carrega as pastas do Firebase ao carregar a página
 document.addEventListener('DOMContentLoaded', loadFoldersFromFirebase);
 
-// Função para criar uma nova pasta
+// Função para criar nova pasta
 function createFolder(name) {
     const folder = document.createElement('div');
     folder.classList.add('folder');
@@ -56,7 +56,7 @@ function createFolder(name) {
     });
 }
 
-// Função para adicionar um arquivo a uma pasta
+// Função para adicionar arquivo
 function addFile(url, container) {
     const fileItem = document.createElement('div');
     fileItem.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
