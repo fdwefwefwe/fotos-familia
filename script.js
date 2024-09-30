@@ -12,8 +12,9 @@ const firebaseConfig = {
 };
 
 // Inicializar o Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+const app = firebase.initializeApp(firebaseConfig);
+const database = firebase.database(app);
+
 
 // Carregar pastas do Firebase
 document.addEventListener('DOMContentLoaded', () => {
