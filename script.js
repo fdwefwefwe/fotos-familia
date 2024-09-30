@@ -1,12 +1,26 @@
-document.addEventListener('DOMContentLoaded', loadFolders);
-document.getElementById('newFolderBtn').addEventListener('click', function () {
-    const folderName = prompt('Digite o nome da nova pasta:');
-    if (folderName) {
-        createFolder(folderName);
-        saveFolders();
-    }
-});
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set, get, child } from "firebase/database";
 
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBAYby8HRcTsjrlN7P6v7IOaQiMia1nf1k",
+  authDomain: "fotos-be32b.firebaseapp.com",
+  databaseURL: "https://fotos-be32b-default-rtdb.firebaseio.com",
+  projectId: "fotos-be32b",
+  storageBucket: "fotos-be32b.appspot.com",
+  messagingSenderId: "629428664615",
+  appId: "1:629428664615:web:371af57a06f9c5b2fad102",
+  measurementId: "G-VMEFCW0JBM"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+// Carregar pastas do Firebase ao carregar a página
+document.addEventListener('DOMContentLoaded', loadFoldersFromFirebase);
+
+// Função para criar uma nova pasta
 function createFolder(name) {
     const folder = document.createElement('div');
     folder.classList.add('folder');
@@ -34,7 +48,7 @@ function createFolder(name) {
                 addFile(fileInput.value, filesContainer);
                 fileInput.value = '';
                 fileInput.style.display = 'none';
-                saveFolders();  // Save to localStorage
+                saveFolders();  // Salvar no Firebase
             } else {
                 alert('Por favor, insira um URL válido.');
             }
@@ -42,12 +56,14 @@ function createFolder(name) {
     });
 }
 
+// Função para adicionar um arquivo a uma pasta
 function addFile(url, container) {
     const fileItem = document.createElement('div');
     fileItem.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
     container.appendChild(fileItem);
 }
 
+// Função para validar URL
 function isValidUrl(string) {
     try {
         new URL(string);
@@ -57,6 +73,38 @@ function isValidUrl(string) {
     }
 }
 
+// Função para salvar pastas no Firebase
+function saveFoldersToFirebase(folders) {
+    set(ref(database, 'folders/'), folders)
+        .then(() => {
+            console.log('Dados salvos no Firebase com sucesso!');
+        })
+        .catch((error) => {
+            console.error('Erro ao salvar dados no Firebase:', error);
+        });
+}
+
+// Função para carregar pastas do Firebase
+function loadFoldersFromFirebase() {
+    const dbRef = ref(database);
+    get(child(dbRef, 'folders/')).then((snapshot) => {
+        if (snapshot.exists()) {
+            const folders = snapshot.val();
+            Object.values(folders).forEach(folder => {
+                createFolder(folder.name);
+                const newFolder = document.querySelectorAll('.folder');
+                const filesContainer = newFolder[newFolder.length - 1].querySelector('.filesContainer');
+                folder.files.forEach(file => addFile(file, filesContainer));
+            });
+        } else {
+            console.log('Nenhuma pasta encontrada');
+        }
+    }).catch((error) => {
+        console.error('Erro ao carregar dados do Firebase:', error);
+    });
+}
+
+// Função para salvar pastas
 function saveFolders() {
     const folders = [];
     document.querySelectorAll('.folder').forEach(folder => {
@@ -65,15 +113,10 @@ function saveFolders() {
                           .map(file => file.href);
         folders.push({ name, files });
     });
-    localStorage.setItem('folders', JSON.stringify(folders));
-}
 
-function loadFolders() {
-    const folders = JSON.parse(localStorage.getItem('folders')) || [];
-    folders.forEach(folder => {
-        createFolder(folder.name);
-        const newFolder = document.querySelectorAll('.folder');
-        const filesContainer = newFolder[newFolder.length - 1].querySelector('.filesContainer');
-        folder.files.forEach(file => addFile(file, filesContainer));
-    });
+    // Armazenar no localStorage
+    localStorage.setItem('folders', JSON.stringify(folders));
+
+    // Salvar no Firebase
+    saveFoldersToFirebase(folders);
 }
