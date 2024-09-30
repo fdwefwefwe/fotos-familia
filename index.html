@@ -14,7 +14,19 @@
 
     <main>
         <button id="newFolderBtn" class="btn">Nova Pasta</button>
+        
+        <!-- Formulário para enviar imagens -->
+        <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" id="fileInput" accept="image/*">
+            <button type="submit" class="btn">Enviar Imagem</button>
+        </form>
+
+        <!-- Seção para exibir imagens e links -->
         <section id="foldersContainer" class="folders-wrapper"></section>
+        <section id="uploadedImages">
+            <h2>Imagens Enviadas</h2>
+            <div id="imagesContainer"></div>
+        </section>
     </main>
 
     <footer>
