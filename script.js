@@ -3,19 +3,19 @@ import { getDatabase, ref, set, get, child, push } from "firebase/database";
 
 // Inicializa Firebase com as variáveis globais
 const firebaseConfig = {
-  apiKey: "AIzaSyBAYby8HRcTsjrlN7P6v7IOaQiMia1nf1k",
-  authDomain: "fotos-be32b.firebaseapp.com",
-  databaseURL: "https://fotos-be32b-default-rtdb.firebaseio.com",
-  projectId: "fotos-be32b",
-  storageBucket: "fotos-be32b.appspot.com",
-  messagingSenderId: "629428664615",
-  appId: "1:629428664615:web:371af57a06f9c5b2fad102",
-  measurementId: "G-VMEFCW0JBM"
-};
+    apiKey: "AIzaSyBAYby8HRcTsjrlN7P6v7IOaQiMia1nf1k",
+    authDomain: "fotos-be32b.firebaseapp.com",
+    databaseURL: "https://fotos-be32b-default-rtdb.firebaseio.com",
+    projectId: "fotos-be32b",
+    storageBucket: "fotos-be32b.appspot.com",
+    messagingSenderId: "629428664615",
+    appId: "1:629428664615:web:371af57a06f9c5b2fad102",
+    measurementId: "G-VMEFCW0JBM"
+  };
 
-// Inicializar Firebase
-const app = firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
+  // Inicializar o Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
 
 // Carregar pastas do Firebase
 document.addEventListener('DOMContentLoaded', loadFoldersFromFirebase);
