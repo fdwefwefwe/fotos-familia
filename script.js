@@ -1,43 +1,32 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const uploadForm = document.getElementById('uploadForm');
-    const imagesContainer = document.getElementById('imagesContainer');
+document.addEventListener("DOMContentLoaded", function () {
+    const newFolderBtn = document.getElementById("newFolderBtn");
+    const foldersContainer = document.getElementById("foldersContainer");
+    const fileInput = document.getElementById("fileInput");
+    const uploadBtn = document.getElementById("uploadBtn");
+    const imagesContainer = document.getElementById("imagesContainer");
 
-    // Lidar com o envio de imagem
-    uploadForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const formData = new FormData(uploadForm);
-        try {
-            const response = await fetch('/upload', {
-                method: 'POST',
-                body: formData
-            });
-            const result = await response.json();
-            addImageToPage(result.fileUrl); // Adiciona a nova imagem na página
-        } catch (error) {
-            console.error('Erro ao fazer upload da imagem:', error);
+    // Função para adicionar nova pasta
+    newFolderBtn.addEventListener("click", function () {
+        const folderName = prompt("Digite o nome da nova pasta:");
+        if (folderName) {
+            const folderDiv = document.createElement("div");
+            folderDiv.classList.add("folder");
+            folderDiv.innerHTML = `<h3>${folderName}</h3><button class="addFileBtn">Adicionar Arquivo</button>`;
+            foldersContainer.appendChild(folderDiv);
         }
     });
 
-    // Função para exibir uma imagem na página
-    function addImageToPage(fileUrl) {
-        const img = document.createElement('img');
-        img.src = fileUrl;
-        img.alt = 'Imagem enviada';
-        img.classList.add('uploaded-image');
-        imagesContainer.appendChild(img);
-    }
-
-    // Carregar e exibir as imagens já enviadas
-    async function loadImages() {
-        try {
-            const response = await fetch('/images');
-            const imageUrls = await response.json();
-            imageUrls.forEach(url => addImageToPage(url));
-        } catch (error) {
-            console.error('Erro ao carregar imagens:', error);
+    // Função para enviar imagem
+    uploadBtn.addEventListener("click", function () {
+        const file = fileInput.files[0];
+        if (file) {
+            const img = document.createElement("img");
+            img.src = URL.createObjectURL(file);
+            img.classList.add("uploaded-image");
+            imagesContainer.appendChild(img);
+            fileInput.value = ""; // Limpa o campo de entrada
+        } else {
+            alert("Por favor, selecione uma imagem para enviar.");
         }
-    }
-
-    // Carregar as imagens quando a página for carregada
-    loadImages();
+    });
 });
