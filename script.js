@@ -19,7 +19,10 @@ const database = firebase.database(app);
 // Carregar pastas do Firebase
 document.addEventListener('DOMContentLoaded', () => {
     loadFoldersFromFirebase();
-    document.getElementById('newFolderBtn').addEventListener('click', () => {
+    document.getElementById('addFolderButton').addEventListener('click', function() {
+
+
+        
         const folderName = prompt("Digite o nome da nova pasta:");
         if (folderName) {
             createFolder(folderName);
