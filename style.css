@@ -172,6 +172,21 @@ button {
     background-color: #d82c28; /* Cor de fundo ao passar o mouse */
 }
 
+deleteImageBtn { 
+    background-color: #ff3b30; /* Cor de fundo vermelha */
+    color: white; /* Cor do texto */
+    border: none; /* Sem borda */
+    padding: 5px 10px; /* Espaçamento interno */
+    cursor: pointer; /* Mão ao passar o mouse */
+    border-radius: 5px; /* Bordas arredondadas */
+    margin-left: 5px; /* Espaçamento à esquerda */
+    transition: background-color 0.3s; /* Efeito de transição */
+}
+
+.deleteImageBtn:hover {
+    background-color: #d82c28; /* Cor de fundo ao passar o mouse */
+}
+
 .addFileBtn {
     background-color: #007bff; /* Azul padrão */
     color: white;
