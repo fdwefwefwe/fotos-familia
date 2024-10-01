@@ -73,11 +73,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function addFolder(folderName, files = []) {
         const folderDiv = document.createElement("div");
         folderDiv.classList.add("folder");
-        folderDiv.innerHTML = `
+        folderDiv.innerHTML = 
             <h3>${folderName} <button class="deleteFolderBtn">Excluir</button></h3>
             <button class="addFileBtn">+</button>
             <div class="filesContainer"></div>
-        `;
+        ;
         foldersContainer.appendChild(folderDiv);
 
         const filesContainer = folderDiv.querySelector(".filesContainer");
@@ -132,25 +132,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 folder.files.splice(index, 1); // Remove o link do array
             }
         });
-function exportAllLinks() {
-    const links = document.querySelectorAll('.filesContainer div'); // Coleta todos os links
-    let textContent = "Links exportados:\n\n";
-
-    links.forEach(link => {
-        textContent += link.textContent.trim() + "\n"; // Adiciona o texto de cada link
-    });
-
-    const blob = new Blob([textContent], { type: 'text/plain' });
-    const downloadLink = document.createElement('a');
-    downloadLink.href = URL.createObjectURL(blob);
-    downloadLink.download = 'links_exportados.txt'; // Nome do arquivo
-    downloadLink.click(); // Inicia o download
-}
-
-// Evento para o botão
-document.getElementById('exportBtn').addEventListener('click', exportAllLinks);
-
-
 
         // Salvar as pastas atualizadas no LocalStorage
         saveToLocalStorage("folders", folders);
@@ -254,7 +235,7 @@ document.getElementById('exportBtn').addEventListener('click', exportAllLinks);
 
             images.forEach((imageSrc, index) => {
                 const base64Data = imageSrc.split(",")[1]; // Pega apenas a parte Base64
-                folder.file(`imagem${index + 1}.png`, base64Data, { base64: true });
+                folder.file(imagem${index + 1}.png, base64Data, { base64: true });
             });
 
             zip.generateAsync({ type: "blob" }).then(function (content) {
