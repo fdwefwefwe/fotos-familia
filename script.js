@@ -11,6 +11,12 @@ document.addEventListener("DOMContentLoaded", function () {
         savedFolders.forEach(folder => {
             createFolder(folder.name, folder.files);
         });
+
+        // Carrega as imagens enviadas
+        const savedImages = JSON.parse(localStorage.getItem('uploadedImages')) || [];
+        savedImages.forEach(imageUrl => {
+            displayImage(imageUrl);
+        });
     }
 
     // Função para salvar pastas no localStorage
@@ -40,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         foldersContainer.appendChild(folderDiv);
 
-        // Adiciona arquivos existentes à pasta (se houver)
         const filesContainer = folderDiv.querySelector(".filesContainer");
         files.forEach(fileUrl => {
             const fileDiv = document.createElement("div");
@@ -48,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
             filesContainer.appendChild(fileDiv);
         });
 
-        // Evento para o botão de adicionar arquivo
         const addFileBtn = folderDiv.querySelector(".addFileBtn");
         addFileBtn.addEventListener("click", function () {
             const fileUrl = prompt("Insira a URL do arquivo:");
@@ -56,49 +60,51 @@ document.addEventListener("DOMContentLoaded", function () {
                 const fileDiv = document.createElement("div");
                 fileDiv.textContent = fileUrl;
                 filesContainer.appendChild(fileDiv);
-                saveFolders(); // Salva os dados atualizados
+                saveFolders();
             }
         });
 
-        // Botão para excluir a pasta
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = "Excluir Pasta";
         deleteBtn.classList.add("deleteBtn");
         folderDiv.appendChild(deleteBtn);
         deleteBtn.addEventListener('click', function () {
             folderDiv.remove();
-            saveFolders(); // Salva após exclusão
+            saveFolders();
         });
     }
 
-    // Função para adicionar nova pasta
-    newFolderBtn.addEventListener("click", function () {
-        const folderName = prompt("Digite o nome da nova pasta:");
-        if (folderName) {
-            createFolder(folderName);
-            saveFolders(); // Salva nova pasta
-        }
-    });
+    // Função para salvar imagens no localStorage
+    function saveImages() {
+        const imgElements = imagesContainer.querySelectorAll("img");
+        const images = [];
+        imgElements.forEach(img => {
+            images.push(img.src);
+        });
+        localStorage.setItem('uploadedImages', JSON.stringify(images));
+    }
 
-    // Função para abrir o explorador de arquivos ao clicar no botão de enviar imagem
-    uploadBtn.addEventListener("click", function () {
-        fileInput.click(); // Isso abrirá o explorador de arquivos
-    });
+    // Função para exibir a imagem na tela
+    function displayImage(imageUrl) {
+        const img = document.createElement("img");
+        img.src = imageUrl;
+        img.classList.add("uploaded-image");
+        imagesContainer.appendChild(img);
+    }
 
     // Função para enviar imagem
     fileInput.addEventListener("change", function () {
         const file = fileInput.files[0];
         if (file) {
-            const img = document.createElement("img");
-            img.src = URL.createObjectURL(file);
-            img.classList.add("uploaded-image");
-            imagesContainer.appendChild(img);
+            const imageUrl = URL.createObjectURL(file);
+            displayImage(imageUrl);
+            saveImages(); // Salva imagens
             fileInput.value = ""; // Limpa o campo de entrada
         } else {
             alert("Por favor, selecione uma imagem para enviar.");
         }
     });
 
-    // Carrega pastas salvas ao iniciar a página
+    // Carrega pastas e imagens salvas ao iniciar a página
     loadFolders();
 });
