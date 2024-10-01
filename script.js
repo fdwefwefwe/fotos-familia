@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return data ? JSON.parse(data) : null;
     }
 
-    // Carregar pastas salvas ao carregar a página
+    // Função para carregar pastas salvas
     function loadFolders() {
         const savedFolders = loadFromLocalStorage("folders");
         if (savedFolders) {
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Carregar imagens salvas ao carregar a página
+    // Função para carregar imagens salvas
     function loadImages() {
         const savedImages = loadFromLocalStorage("images");
         if (savedImages) {
@@ -74,20 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Evento para adicionar nova pasta
-    newFolderBtn.addEventListener("click", function () {
-        const folderName = prompt("Digite o nome da nova pasta:");
-        if (folderName) {
-            createFolder(folderName);
-
-            // Salvar pasta no LocalStorage
-            const folders = loadFromLocalStorage("folders") || [];
-            folders.push({ name: folderName, files: [] });
-            saveToLocalStorage("folders", folders);
-        }
-    });
-
-    // Função para adicionar imagem na página e salvar no LocalStorage
+    // Função para adicionar imagem na página
     function addImage(imageSrc) {
         const img = document.createElement("img");
         img.src = imageSrc;
@@ -95,24 +82,34 @@ document.addEventListener("DOMContentLoaded", function () {
         imagesContainer.appendChild(img);
     }
 
+    // Função para converter arquivo de imagem para Base64
+    function convertToBase64(file, callback) {
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            callback(reader.result); // O resultado será a string Base64
+        };
+        reader.readAsDataURL(file);
+    }
+
     // Evento para abrir o explorador de arquivos
     uploadBtn.addEventListener("click", function () {
         fileInput.click();
     });
 
-    // Função para enviar imagem e armazenar no LocalStorage
+    // Evento para enviar imagem e armazenar em Base64 no LocalStorage
     fileInput.addEventListener("change", function () {
         const file = fileInput.files[0];
         if (file) {
-            const imageSrc = URL.createObjectURL(file);
-            addImage(imageSrc);
+            convertToBase64(file, function (base64Image) {
+                addImage(base64Image);
 
-            // Salvar imagem no LocalStorage
-            const images = loadFromLocalStorage("images") || [];
-            images.push(imageSrc);
-            saveToLocalStorage("images", images);
+                // Salvar imagem em Base64 no LocalStorage
+                const images = loadFromLocalStorage("images") || [];
+                images.push(base64Image);
+                saveToLocalStorage("images", images);
 
-            fileInput.value = ""; // Limpar campo de entrada
+                fileInput.value = ""; // Limpar o campo de entrada
+            });
         } else {
             alert("Por favor, selecione uma imagem para enviar.");
         }
