@@ -1,15 +1,10 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () { 
     const newFolderBtn = document.getElementById("newFolderBtn");
     const foldersContainer = document.getElementById("foldersContainer");
     const fileInput = document.getElementById("fileInput");
     const uploadBtn = document.getElementById("uploadBtn");
     const imagesContainer = document.getElementById("imagesContainer");
-    
-    // Remover a criação do botão aqui
-    const downloadBtn = document.createElement("button");
-    downloadBtn.textContent = "Baixar todas as imagens";
-    downloadBtn.style.display = 'block'; // Para garantir que o botão seja exibido como um bloco
-    document.body.appendChild(downloadBtn); // Adicionar o botão ao body, você pode ajustar isso mais tarde
+    const downloadAllBtn = document.getElementById("downloadAllBtn");
 
     // Função para salvar dados no LocalStorage
     function saveToLocalStorage(key, data) {
@@ -228,26 +223,29 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Função para baixar todas as imagens em um arquivo ZIP
-    downloadBtn.addEventListener("click", function () {
+    // Função para baixar todas as imagens
+    downloadAllBtn.addEventListener("click", function () {
         const images = loadFromLocalStorage("images") || [];
-        const zip = new JSZip();
+        if (images.length > 0) {
+            const zip = new JSZip();
+            const folder = zip.folder("Imagens");
 
-        images.forEach((imageSrc, index) => {
-            const filename = `image_${index + 1}.png`; // Nome para o arquivo
-            zip.file(filename, imageSrc.split(",")[1], { base64: true }); // Adiciona a imagem ao ZIP
-        });
+            images.forEach((imageSrc, index) => {
+                const base64Data = imageSrc.split(",")[1]; // Pega apenas a parte Base64
+                folder.file(`imagem${index + 1}.png`, base64Data, { base64: true });
+            });
 
-        zip.generateAsync({ type: "blob" }).then(function (content) {
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(content);
-            link.download = "imagens.zip"; // Nome do arquivo ZIP
-            link.click();
-            URL.revokeObjectURL(link.href); // Limpar o URL após o download
-        });
+            zip.generateAsync({ type: "blob" }).then(function (content) {
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(content);
+                link.download = "imagens.zip";
+                link.click();
+            });
+        } else {
+            alert("Nenhuma imagem para baixar.");
+        }
     });
 
-    // Carregar pastas e imagens ao iniciar a página
-    loadFolders();
-    loadImages();
+    loadImages(); // Carregar imagens na inicialização
+    loadFolders(); // Carregar pastas na inicialização
 });
