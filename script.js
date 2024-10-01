@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
         folderDiv.classList.add("folder");
         folderDiv.innerHTML = `
             <h3>${folderName} <button class="deleteFolderBtn">Excluir</button></h3>
-            <button class="addFileBtn">Adicionar um Link</button>
+            <button class="addFileBtn">+</button>
             <div class="filesContainer"></div>
         `;
         foldersContainer.appendChild(folderDiv);
