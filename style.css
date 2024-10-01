@@ -1,138 +1,145 @@
+/* Estilização geral */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    text-align: center;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    background-color: #f0f0f0;
 }
 
 header {
-    padding: 20px;
-    background-color: #c71d23;
+    background-color: #343a40;
     color: white;
-}
-
-h1 {
-    margin: 0;
-    font-size: 2rem;
+    padding: 20px;
+    text-align: center;
 }
 
 main {
-    flex-grow: 1;
+    max-width: 800px;
+    margin: 20px auto;
     padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-footer {
-    background-color: #333;
+h1, h2 {
+    color: #333;
+    text-align: center;
+}
+
+button {
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#newFolderBtn {
+    background-color: #28a745;
     color: white;
-    padding: 10px 0;
-    position: relative;
-    bottom: 0;
+    margin-bottom: 20px;
+    display: block;
     width: 100%;
 }
 
-.btn {
-    background-color: #c71d23;
+#newFolderBtn:hover {
+    background-color: #218838;
+}
+
+/* Estilo para a seção de upload de imagens */
+#uploadSection {
+    margin-top: 40px;
+}
+
+.upload-image-btn {
+    background-color: #007bff;
     color: white;
-    border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
 }
 
-.btn:hover {
-    background-color: #a0161a;
+.upload-image-btn:hover {
+    background-color: #0056b3;
     transform: scale(1.05);
 }
 
-.folders-wrapper {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-}
-
-.folder {
-    background-color: #fff;
-    border: 2px solid #c71d23;
-    border-radius: 8px;
-    padding: 20px;
-    width: 220px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
-}
-
-.folder h3 {
-    margin-bottom: 10px;
-    color: #c71d23;
-    font-size: 1.2rem;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 8px;
-}
-
-.addFileBtn {
-    margin-top: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 8px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.addFileBtn:hover {
-    background-color: #218838;
-}
-
 .file-input {
-    margin-top: 10px;
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     display: none;
-}
-
-.filesContainer {
-    margin-top: 15px;
-    text-align: left;
-}
-
-.filesContainer div {
-    background-color: #f1f1f1;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-    overflow-wrap: break-word;
-}
-
-/* Novas regras */
-.uploaded-image {
-    max-width: 200px; 
-    max-height: 150px; 
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    margin: 10px; 
 }
 
 #uploadedImages {
     margin-top: 20px;
-    text-align: left; 
 }
 
-#uploadedImages h2 {
-    color: #c71d23; 
+.uploaded-image {
+    max-width: 200px;
+    max-height: 150px;
+    margin: 10px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    transition: transform 0.3s;
 }
 
-#imagesContainer {
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: center; 
+.uploaded-image:hover {
+    transform: scale(1.05);
+}
+
+/* Estilo para as pastas e arquivos */
+.folders-wrapper {
+    margin-bottom: 40px;
+}
+
+.folder {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    position: relative;
+}
+
+.folder h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.filesContainer div {
+    background-color: #f0f0f0;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+/* Botão de excluir arquivos */
+.deleteBtn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-left: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.deleteBtn:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+/* Estilo para o rodapé */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #343a40;
+    color: white;
+    margin-top: 40px;
 }
