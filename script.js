@@ -58,6 +58,54 @@ document.addEventListener("DOMContentLoaded", function () {
         reader.readAsDataURL(file);
     }
 
+    // Função para carregar pastas salvas
+    function loadFolders() {
+        const savedFolders = loadFromLocalStorage("folders");
+        if (savedFolders) {
+            savedFolders.forEach((folderName) => {
+                addFolder(folderName);
+            });
+        }
+    }
+
+    // Função para adicionar uma nova pasta na página
+    function addFolder(folderName) {
+        const folderDiv = document.createElement("div");
+        folderDiv.classList.add("folder");
+        folderDiv.innerHTML = `
+            <h3>${folderName}</h3>
+            <button class="addFileBtn">Adicionar Arquivo</button>
+            <div class="filesContainer"></div>
+        `;
+        foldersContainer.appendChild(folderDiv);
+        
+        // Evento para o botão de adicionar arquivo
+        const addFileBtn = folderDiv.querySelector(".addFileBtn");
+        addFileBtn.addEventListener("click", function () {
+            const fileUrl = prompt("Insira a URL do arquivo:");
+            if (fileUrl) {
+                const fileDiv = document.createElement("div");
+                fileDiv.textContent = fileUrl;
+                folderDiv.querySelector(".filesContainer").appendChild(fileDiv);
+            }
+        });
+    }
+
+    // Função para criar uma nova pasta
+    newFolderBtn.addEventListener("click", function () {
+        const folderName = prompt("Digite o nome da nova pasta:");
+        if (folderName) {
+            const folders = loadFromLocalStorage("folders") || [];
+            folders.push(folderName);
+
+            // Salvar pastas no LocalStorage
+            saveToLocalStorage("folders", folders);
+
+            // Adicionar pasta ao DOM
+            addFolder(folderName);
+        }
+    });
+
     // Evento para abrir o explorador de arquivos
     uploadBtn.addEventListener("click", function () {
         fileInput.click();
@@ -100,6 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Carregar imagens ao iniciar
+    // Carregar imagens e pastas ao iniciar
     loadImages();
+    loadFolders();
 });
