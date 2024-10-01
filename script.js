@@ -132,22 +132,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 folder.files.splice(index, 1); // Remove o link do array
             }
         });
-// Função para exportar links de uma pasta como .txt
-// Função para exportar todos os links de pastas
-document.getElementById('exportLinksBtn').addEventListener('click', function() {
-    const links = document.querySelectorAll('.file-link'); // Assume que links têm a classe 'file-link'
-    let linkData = '';
-    
+function exportAllLinks() {
+    const links = document.querySelectorAll('.filesContainer div'); // Coleta todos os links
+    let textContent = "Links exportados:\n\n";
+
     links.forEach(link => {
-        linkData += link.href + '\n'; // Adiciona o link ao conteúdo para exportação
+        textContent += link.textContent.trim() + "\n"; // Adiciona o texto de cada link
     });
-    
-    const blob = new Blob([linkData], { type: 'text/plain' });
-    const linkElement = document.createElement('a');
-    linkElement.href = URL.createObjectURL(blob);
-    linkElement.download = 'links.txt'; // Nome do arquivo de exportação
-    linkElement.click();
-});
+
+    const blob = new Blob([textContent], { type: 'text/plain' });
+    const downloadLink = document.createElement('a');
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = 'links_exportados.txt'; // Nome do arquivo
+    downloadLink.click(); // Inicia o download
+}
+
+// Evento para o botão
+document.getElementById('exportBtn').addEventListener('click', exportAllLinks);
+
 
 
         // Salvar as pastas atualizadas no LocalStorage
