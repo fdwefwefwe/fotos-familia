@@ -187,9 +187,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Evento para enviar imagem e armazenar em Base64 no LocalStorage
-    fileInput.addEventListener("change", function () {
-        const file = fileInput.files[0];
-        if (file) {
+   fileInput.addEventListener("change", function () {
+    const files = fileInput.files; // Obter todos os arquivos
+    if (files.length > 0) {
+        // Converter cada arquivo de imagem para Base64
+        Array.from(files).forEach(file => {
             convertToBase64(file, function (base64Image) {
                 const images = loadFromLocalStorage("images") || [];
                 images.push(base64Image);
@@ -199,13 +201,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Adicionar imagem ao DOM
                 addImage(base64Image, images.length - 1);
-
-                fileInput.value = ""; // Limpar o campo de entrada
             });
-        } else {
-            alert("Por favor, selecione uma imagem para enviar.");
-        }
-    });
+        });
+
+        fileInput.value = ""; // Limpar o campo de entrada
+    } else {
+        alert("Por favor, selecione uma imagem para enviar.");
+    }
+});
 
     // Função para excluir uma imagem do LocalStorage e da página
     function deleteImage(index) {
