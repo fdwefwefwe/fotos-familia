@@ -4,9 +4,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const fileInput = document.getElementById("fileInput");
     const uploadBtn = document.getElementById("uploadBtn");
     const imagesContainer = document.getElementById("imagesContainer");
+    
+    // Remover a criação do botão aqui
     const downloadBtn = document.createElement("button");
     downloadBtn.textContent = "Baixar todas as imagens";
-    document.body.appendChild(downloadBtn);
+    downloadBtn.style.display = 'block'; // Para garantir que o botão seja exibido como um bloco
+    document.body.appendChild(downloadBtn); // Adicionar o botão ao body, você pode ajustar isso mais tarde
 
     // Função para salvar dados no LocalStorage
     function saveToLocalStorage(key, data) {
