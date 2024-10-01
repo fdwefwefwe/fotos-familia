@@ -172,7 +172,7 @@ button {
     background-color: #d82c28; /* Cor de fundo ao passar o mouse */
 }
 
-deleteImageBtn { 
+deleteImage { 
     background-color: #ff3b30; /* Cor de fundo vermelha */
     color: white; /* Cor do texto */
     border: none; /* Sem borda */
@@ -183,7 +183,7 @@ deleteImageBtn {
     transition: background-color 0.3s; /* Efeito de transição */
 }
 
-.deleteImageBtn:hover {
+.deleteImage:hover {
     background-color: #d82c28; /* Cor de fundo ao passar o mouse */
 }
 
