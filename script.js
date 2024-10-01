@@ -132,6 +132,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 folder.files.splice(index, 1); // Remove o link do array
             }
         });
+// Função para exportar links de uma pasta como .txt
+function exportFolderLinks(folderId) {
+    const folder = document.getElementById(folderId);
+    const links = folder.querySelectorAll('.filesContainer div'); // Seleciona os links da pasta
+    let textContent = "Links contidos na pasta:\n\n";
+
+    // Itera sobre os links e adiciona ao texto
+    links.forEach(link => {
+        textContent += link.textContent.trim() + "\n";
+    });
+
+    // Cria um blob e um link para download
+    const blob = new Blob([textContent], { type: 'text/plain' });
+    const downloadLink = document.createElement('a');
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = 'links_pasta.txt'; // Nome do arquivo
+    downloadLink.click();
+}
+
+// Evento para chamar a função de exportação
+document.getElementById('exportBtn').addEventListener('click', function () {
+    exportFolderLinks('folder1'); // Substitua 'folder1' pelo ID da pasta a ser exportada
+});
 
         // Salvar as pastas atualizadas no LocalStorage
         saveToLocalStorage("folders", folders);
