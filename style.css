@@ -172,6 +172,21 @@ button {
     background-color: #d82c28; /* Cor de fundo ao passar o mouse */
 }
 
+.exportBtn {
+    background-color: #007bff; /* Azul padrão */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.exportBtn:hover {
+    background-color: #0056b3; /* Tom mais escuro no hover */
+}
+
+
 deleteImage { 
     background-color: #ff3b30; /* Cor de fundo vermelha */
     color: white; /* Cor do texto */
