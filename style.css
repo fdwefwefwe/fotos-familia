@@ -23,7 +23,7 @@ main {
 }
 
 h1, h2 {
-    color: #333;
+    color: #000000;
     text-align: center;
 }
 
@@ -54,7 +54,7 @@ button {
 }
 
 .upload-image-btn {
-    background-color: #007bff;
+    background-color: #28a745;
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
@@ -104,7 +104,7 @@ button {
 
 .folder h3 {
     font-size: 1.2rem;
-    color: #333;
+    color: #000000;
     margin-bottom: 10px;
 }
 
