@@ -5,71 +5,32 @@ document.addEventListener("DOMContentLoaded", function () {
     const uploadBtn = document.getElementById("uploadBtn");
     const imagesContainer = document.getElementById("imagesContainer");
 
-    // Função para salvar dados no LocalStorage
-    function saveToLocalStorage(key, data) {
-        localStorage.setItem(key, JSON.stringify(data));
-    }
-
-    // Função para carregar dados do LocalStorage
-    function loadFromLocalStorage(key) {
-        const data = localStorage.getItem(key);
-        return data ? JSON.parse(data) : null;
-    }
-
-    // Função para carregar imagens salvas
-    function loadImages() {
-        const savedImages = loadFromLocalStorage("images");
-        if (savedImages) {
-            savedImages.forEach((imageSrc, index) => {
-                addImage(imageSrc, index);
-            });
-        }
-    }
-
-    // Função para adicionar imagem na página com um botão de exclusão
-    function addImage(imageSrc, index) {
-        const imgDiv = document.createElement("div");
-        imgDiv.classList.add("image-wrapper");
-
-        const img = document.createElement("img");
-        img.src = imageSrc;
-        img.classList.add("uploaded-image");
-
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "Excluir";
-        deleteBtn.classList.add("delete-btn");
-
-        // Evento de exclusão de imagem
-        deleteBtn.addEventListener("click", function () {
-            deleteImage(index); // Remover do LocalStorage e do DOM
-        });
-
-        imgDiv.appendChild(img);
-        imgDiv.appendChild(deleteBtn);
-        imagesContainer.appendChild(imgDiv);
-    }
-
-    // Função para converter arquivo de imagem para Base64
-    function convertToBase64(file, callback) {
-        const reader = new FileReader();
-        reader.onloadend = function () {
-            callback(reader.result); // O resultado será a string Base64
-        };
-        reader.readAsDataURL(file);
-    }
-
-    // Função para carregar pastas salvas
+    // Função para carregar pastas e arquivos salvos no localStorage
     function loadFolders() {
-        const savedFolders = loadFromLocalStorage("folders");
-        if (savedFolders) {
-            savedFolders.forEach((folderName) => {
-                addFolder(folderName);
-            });
-        }
+        const savedFolders = JSON.parse(localStorage.getItem('folders')) || [];
+        savedFolders.forEach(folder => {
+            createFolder(folder.name, folder.files);
+        });
     }
 
-    // Função para adicionar uma nova pasta na página
-    function addFolder(folderName) {
+    // Função para salvar pastas no localStorage
+    function saveFolders() {
+        const folders = [];
+        const folderElements = foldersContainer.querySelectorAll('.folder');
+        folderElements.forEach(folderDiv => {
+            const folderName = folderDiv.querySelector('h3').textContent;
+            const fileElements = folderDiv.querySelectorAll('.filesContainer div');
+            const files = [];
+            fileElements.forEach(fileDiv => {
+                files.push(fileDiv.textContent);
+            });
+            folders.push({ name: folderName, files });
+        });
+        localStorage.setItem('folders', JSON.stringify(folders));
+    }
+
+    // Função para criar uma nova pasta
+    function createFolder(folderName, files = []) {
         const folderDiv = document.createElement("div");
         folderDiv.classList.add("folder");
         folderDiv.innerHTML = `
@@ -78,7 +39,15 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="filesContainer"></div>
         `;
         foldersContainer.appendChild(folderDiv);
-        
+
+        // Adiciona arquivos existentes à pasta (se houver)
+        const filesContainer = folderDiv.querySelector(".filesContainer");
+        files.forEach(fileUrl => {
+            const fileDiv = document.createElement("div");
+            fileDiv.textContent = fileUrl;
+            filesContainer.appendChild(fileDiv);
+        });
+
         // Evento para o botão de adicionar arquivo
         const addFileBtn = folderDiv.querySelector(".addFileBtn");
         addFileBtn.addEventListener("click", function () {
@@ -86,69 +55,50 @@ document.addEventListener("DOMContentLoaded", function () {
             if (fileUrl) {
                 const fileDiv = document.createElement("div");
                 fileDiv.textContent = fileUrl;
-                folderDiv.querySelector(".filesContainer").appendChild(fileDiv);
+                filesContainer.appendChild(fileDiv);
+                saveFolders(); // Salva os dados atualizados
             }
+        });
+
+        // Botão para excluir a pasta
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = "Excluir Pasta";
+        deleteBtn.classList.add("deleteBtn");
+        folderDiv.appendChild(deleteBtn);
+        deleteBtn.addEventListener('click', function () {
+            folderDiv.remove();
+            saveFolders(); // Salva após exclusão
         });
     }
 
-    // Função para criar uma nova pasta
+    // Função para adicionar nova pasta
     newFolderBtn.addEventListener("click", function () {
         const folderName = prompt("Digite o nome da nova pasta:");
         if (folderName) {
-            const folders = loadFromLocalStorage("folders") || [];
-            folders.push(folderName);
-
-            // Salvar pastas no LocalStorage
-            saveToLocalStorage("folders", folders);
-
-            // Adicionar pasta ao DOM
-            addFolder(folderName);
+            createFolder(folderName);
+            saveFolders(); // Salva nova pasta
         }
     });
 
-    // Evento para abrir o explorador de arquivos
+    // Função para abrir o explorador de arquivos ao clicar no botão de enviar imagem
     uploadBtn.addEventListener("click", function () {
-        fileInput.click();
+        fileInput.click(); // Isso abrirá o explorador de arquivos
     });
 
-    // Evento para enviar imagem e armazenar em Base64 no LocalStorage
+    // Função para enviar imagem
     fileInput.addEventListener("change", function () {
         const file = fileInput.files[0];
         if (file) {
-            convertToBase64(file, function (base64Image) {
-                const images = loadFromLocalStorage("images") || [];
-                images.push(base64Image);
-
-                // Salvar imagem em Base64 no LocalStorage
-                saveToLocalStorage("images", images);
-
-                // Adicionar imagem ao DOM
-                addImage(base64Image, images.length - 1);
-
-                fileInput.value = ""; // Limpar o campo de entrada
-            });
+            const img = document.createElement("img");
+            img.src = URL.createObjectURL(file);
+            img.classList.add("uploaded-image");
+            imagesContainer.appendChild(img);
+            fileInput.value = ""; // Limpa o campo de entrada
         } else {
             alert("Por favor, selecione uma imagem para enviar.");
         }
     });
 
-    // Função para excluir uma imagem do LocalStorage e da página
-    function deleteImage(index) {
-        const images = loadFromLocalStorage("images") || [];
-
-        if (index > -1) {
-            images.splice(index, 1); // Remove a imagem do array
-
-            // Atualizar o LocalStorage
-            saveToLocalStorage("images", images);
-
-            // Recarregar a exibição de imagens
-            imagesContainer.innerHTML = ""; // Limpar todas as imagens exibidas
-            loadImages(); // Recarregar todas as imagens atualizadas
-        }
-    }
-
-    // Carregar imagens e pastas ao iniciar
-    loadImages();
+    // Carrega pastas salvas ao iniciar a página
     loadFolders();
 });
