@@ -102,6 +102,10 @@ button {
     position: relative;
 }
 
+.folder:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
 .folder h3 {
     font-size: 1.2rem;
     color: #000000;
@@ -135,6 +139,33 @@ button {
     transform: scale(1.05);
 }
 
+/* Estilizando o botão de excluir */
+.deleteLinkBtn {
+    background-color: transparent;
+    color: #dc3545; /* Vermelho */
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Botão de excluir com hover */
+.deleteLinkBtn:hover {
+    text-decoration: underline; /* Substituir o texto quando hover */
+}
+
+.addFileBtn {
+    background-color: #007bff; /* Azul padrão */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.addFileBtn:hover {
+    background-color: #0056b3; /* Tom mais escuro para o hover */
+}
 /* Estilo para o rodapé */
 footer {
     text-align: center;
