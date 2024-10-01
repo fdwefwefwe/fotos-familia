@@ -62,14 +62,14 @@ document.addEventListener("DOMContentLoaded", function () {
     function loadFolders() {
         const savedFolders = loadFromLocalStorage("folders");
         if (savedFolders) {
-            savedFolders.forEach((folderName) => {
-                addFolder(folderName);
+            savedFolders.forEach((folder) => {
+                addFolder(folder.name, folder.links); // Carregar pasta com seus links
             });
         }
     }
 
     // Função para adicionar uma nova pasta na página
-    function addFolder(folderName) {
+    function addFolder(folderName, links = []) {
         const folderDiv = document.createElement("div");
         folderDiv.classList.add("folder");
         folderDiv.innerHTML = `
@@ -77,8 +77,17 @@ document.addEventListener("DOMContentLoaded", function () {
             <button class="addFileBtn">Adicionar Arquivo</button>
             <div class="filesContainer"></div>
         `;
+
+        // Adicionar arquivos da pasta
+        const filesContainer = folderDiv.querySelector(".filesContainer");
+        links.forEach(link => {
+            const fileDiv = document.createElement("div");
+            fileDiv.textContent = link;
+            filesContainer.appendChild(fileDiv);
+        });
+
         foldersContainer.appendChild(folderDiv);
-        
+
         // Evento para o botão de adicionar arquivo
         const addFileBtn = folderDiv.querySelector(".addFileBtn");
         addFileBtn.addEventListener("click", function () {
@@ -86,7 +95,15 @@ document.addEventListener("DOMContentLoaded", function () {
             if (fileUrl) {
                 const fileDiv = document.createElement("div");
                 fileDiv.textContent = fileUrl;
-                folderDiv.querySelector(".filesContainer").appendChild(fileDiv);
+                filesContainer.appendChild(fileDiv);
+
+                // Atualizar os links no LocalStorage
+                const folders = loadFromLocalStorage("folders") || [];
+                const folder = folders.find(f => f.name === folderName);
+                if (folder) {
+                    folder.links.push(fileUrl);
+                    saveToLocalStorage("folders", folders); // Salvar a pasta atualizada
+                }
             }
         });
     }
@@ -96,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const folderName = prompt("Digite o nome da nova pasta:");
         if (folderName) {
             const folders = loadFromLocalStorage("folders") || [];
-            folders.push(folderName);
+            folders.push({ name: folderName, links: [] }); // Criar objeto da pasta com array de links
 
             // Salvar pastas no LocalStorage
             saveToLocalStorage("folders", folders);
