@@ -73,11 +73,12 @@ document.addEventListener("DOMContentLoaded", function () {
     function addFolder(folderName, files = []) {
         const folderDiv = document.createElement("div");
         folderDiv.classList.add("folder");
-        folderDiv.innerHTML = 
-            <h3>${folderName} <button class="deleteFolderBtn">Excluir</button></h3>
-            <button class="addFileBtn">+</button>
-            <div class="filesContainer"></div>
-        ;
+        folderDiv.innerHTML = `
+    <h3>${folderName} <button class="deleteFolderBtn">Excluir</button></h3>
+    <button class="addFileBtn">+</button>
+    <div class="filesContainer"></div>
+`;
+
         foldersContainer.appendChild(folderDiv);
 
         const filesContainer = folderDiv.querySelector(".filesContainer");
