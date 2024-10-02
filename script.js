@@ -228,28 +228,31 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Função para baixar todas as imagens
-    downloadAllBtn.addEventListener("click", function () {
-        const images = loadFromLocalStorage("images") || [];
-        if (images.length > 0) {
-            const zip = new JSZip();
-            const folder = zip.folder("Imagens");
+downloadAllBtn.addEventListener("click", function () {
+    const images = loadFromLocalStorage("images") || [];
+    if (images.length > 0) {
+        const zip = new JSZip();
+        const folder = zip.folder("Imagens");
 
-            images.forEach((imageSrc, index) => {
-    const base64Data = imageSrc.split(",")[1]; // Pega apenas a parte Base64
-    folder.file(`imagem${index + 1}.png`, base64Data, { base64: true }); // Corrigido com template string
+        images.forEach((imageSrc, index) => {
+            const base64Data = imageSrc.split(",")[1]; // Pega apenas a parte Base64
+            folder.file(`imagem${index + 1}.png`, base64Data, { base64: true });
+        });
+
+        // Pergunta ao usuário o nome do arquivo zip
+        const zipName = prompt("Digite o nome do arquivo zip:", "imagens");
+
+        zip.generateAsync({ type: "blob" }).then(function (content) {
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(content);
+            link.download = `${zipName || 'imagens'}.zip`; // Usa o nome fornecido pelo usuário ou 'imagens' como padrão
+            link.click();
+        });
+    } else {
+        alert("Nenhuma imagem para baixar.");
+    }
 });
 
-
-            zip.generateAsync({ type: "blob" }).then(function (content) {
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(content);
-                link.download = "imagens.zip";
-                link.click();
-            });
-        } else {
-            alert("Nenhuma imagem para baixar.");
-        }
-    });
 
     loadImages(); // Carregar imagens na inicialização
     loadFolders(); // Carregar pastas na inicialização
