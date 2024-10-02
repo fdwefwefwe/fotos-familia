@@ -158,21 +158,16 @@ button {
 }
 
 #clearAllBtn {
-    background-color: #dc3545; /* Vermelho como o botão de excluir */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    display: block;
-    width: 100%; /* Largura total como o botão de criar nova pasta */
-    margin-top: 20px; /* Espaçamento superior */
+    max-width: 200px;
+    max-height: 150px;
+    margin: 10px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    transition: transform 0.3s;
 }
 
 #clearAllBtn:hover {
-    background-color: #c82333; /* Cor mais escura no hover */
+    background-color: #218838; /* Cor mais escura no hover */
     transform: scale(1.05); /* Leve efeito de escala no hover */
 }
 
