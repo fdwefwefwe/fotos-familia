@@ -226,6 +226,18 @@ document.addEventListener("DOMContentLoaded", function () {
             loadImages(); // Recarregar todas as imagens atualizadas
         }
     }
+document.getElementById("clearAllBtn").addEventListener("click", function () {
+    const confirmation = confirm("Tem certeza de que deseja excluir todas as imagens?");
+    if (confirmation) {
+        // Limpar as imagens do LocalStorage
+        localStorage.removeItem("images");
+
+        // Limpar a exibição de imagens no DOM
+        imagesContainer.innerHTML = "";
+
+        alert("Todas as imagens foram removidas.");
+    }
+});
 
     // Função para baixar todas as imagens
 downloadAllBtn.addEventListener("click", function () {
