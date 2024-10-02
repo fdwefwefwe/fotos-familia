@@ -235,9 +235,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const folder = zip.folder("Imagens");
 
             images.forEach((imageSrc, index) => {
-                const base64Data = imageSrc.split(",")[1]; // Pega apenas a parte Base64
-                folder.file(imagem${index + 1}.png, base64Data, { base64: true });
-            });
+    const base64Data = imageSrc.split(",")[1]; // Pega apenas a parte Base64
+    folder.file(`imagem${index + 1}.png`, base64Data, { base64: true }); // Corrigido com template string
+});
+
 
             zip.generateAsync({ type: "blob" }).then(function (content) {
                 const link = document.createElement("a");
