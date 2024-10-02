@@ -7,11 +7,12 @@ body {
 }
 
 header {
-    background-color: #823434;
+    background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradiente de laranja a amarelo */
     color: white;
     padding: 20px;
     text-align: center;
 }
+
 
 main {
     max-width: 800px;
