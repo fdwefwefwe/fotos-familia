@@ -106,11 +106,12 @@ h2 {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
     margin-top: 30px;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 #imagesContainer img {
     width: calc(50% - 10px);
+    max-width: 300px;
     height: auto;
     object-fit: cover;
     border-radius: 8px;
@@ -236,6 +237,7 @@ footer {
     #imagesContainer {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Imagens menores para dispositivos móveis */
         gap: 15px; /* Espaçamento entre as imagens */
+        width: 100%;
     }
 
     #imagesContainer img {
