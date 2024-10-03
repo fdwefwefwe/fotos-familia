@@ -19,6 +19,7 @@ body {
     margin: 0 auto;
     padding: 20px;
     background-color: var(--background-color);
+    text-align: justify;
 }
 
 header {
@@ -100,15 +101,17 @@ h2 {
 
 /* Estilos para as imagens enviadas */
 #imagesContainer {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
     margin-top: 30px;
+    justify-content: space-around;
 }
 
 #imagesContainer img {
-    width: 100%;
-    height: 200px;
+    width: calc(50% - 10px);
+    height: auto;
     object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
