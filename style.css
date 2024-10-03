@@ -180,6 +180,7 @@ footer {
 }
 
 /* Responsividade */
+/* Responsividade */
 @media (max-width: 768px) {
     body {
         padding: 15px;
@@ -193,12 +194,49 @@ footer {
         font-size: 2rem;
     }
 
-    .upload-image-btn, #clearAllBtn, #newFolderBtn {
-        width: 100%;
+    h2 {
+        font-size: 1.5rem; /* Ajustar tamanho do subtítulo */
+        margin-top: 20px;
+    }
+
+    .separator {
+        margin: 20px 0; /* Ajustar espaçamento */
+    }
+
+    #uploadSection {
+        padding: 20px; /* Ajustar padding */
+    }
+
+    .upload-image-btn, 
+    #clearAllBtn, 
+    #newFolderBtn {
+        width: 100%; /* Botões ocupando a largura total */
         margin-bottom: 10px;
+        padding: 15px; /* Aumentar o tamanho dos botões para facilitar o toque */
+        font-size: 1rem; /* Aumentar o tamanho da fonte */
     }
 
     #imagesContainer {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Imagens menores para dispositivos móveis */
+        gap: 15px; /* Espaçamento entre as imagens */
+    }
+
+    #imagesContainer img {
+        height: 150px; /* Reduzir altura para se ajustar melhor */
+    }
+
+    .link-item {
+        flex-direction: column; /* Organizar links verticalmente em dispositivos móveis */
+        align-items: flex-start; /* Alinhar itens à esquerda */
+        margin-bottom: 15px; /* Mais espaço entre itens */
+    }
+
+    .remove-link {
+        margin-left: 0; /* Remover margem à esquerda */
+        margin-top: 5px; /* Espaço entre o botão e o texto */
+    }
+
+    footer {
+        padding: 15px 0; /* Ajustar padding do rodapé */
     }
 }
