@@ -5,58 +5,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const uploadBtn = document.getElementById("uploadBtn");
     const imagesContainer = document.getElementById("imagesContainer");
     const downloadAllBtn = document.getElementById("downloadAllBtn");
-    const mediaContainer = document.getElementById('mediaContainer');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxContent = document.querySelector('.lightbox-content');
-    const lightboxClose = document.getElementById('lightbox-close');
-
-    fileInput.addEventListener('change', handleFileUpload);
-    lightboxClose.addEventListener('click', closeLightbox);
 
     // Função para salvar dados no LocalStorage
     function saveToLocalStorage(key, data) {
         localStorage.setItem(key, JSON.stringify(data));
-    }
-
-    function handleFileUpload(event) {
-        const files = event.target.files;
-        mediaContainer.innerHTML = ''; // Clear previous media
-        Array.from(files).forEach(file => {
-            if (file.type.startsWith('image/')) {
-                const imgElement = document.createElement('img');
-                imgElement.src = URL.createObjectURL(file);
-                imgElement.alt = file.name;
-                imgElement.addEventListener('click', () => openLightbox('image', imgElement.src));
-                mediaContainer.appendChild(imgElement);
-            } else if (file.type.startsWith('video/')) {
-                const videoElement = document.createElement('video');
-                videoElement.src = URL.createObjectURL(file);
-                videoElement.controls = true;
-                videoElement.addEventListener('click', () => openLightbox('video', videoElement.src));
-                mediaContainer.appendChild(videoElement);
-            }
-        });
-    }
-
-    function openLightbox(type, src) {
-        lightboxContent.innerHTML = ''; // Clear previous content
-        if (type === 'image') {
-            const imgElement = document.createElement('img');
-            imgElement.src = src;
-            lightboxContent.appendChild(imgElement);
-        } else if (type === 'video') {
-            const videoElement = document.createElement('video');
-            videoElement.src = src;
-            videoElement.controls = true;
-            videoElement.autoplay = true;
-            lightboxContent.appendChild(videoElement);
-        }
-        lightbox.classList.remove('hidden');
-    }
-
-    function closeLightbox() {
-        lightbox.classList.add('hidden');
-        lightboxContent.innerHTML = ''; // Clear lightbox content
     }
 
     // Função para carregar dados do LocalStorage
