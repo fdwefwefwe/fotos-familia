@@ -1,10 +1,12 @@
-document.addEventListener("DOMContentLoaded", function () { 
+document.addEventListener("DOMContentLoaded", function () {
     const newFolderBtn = document.getElementById("newFolderBtn");
     const foldersContainer = document.getElementById("foldersContainer");
     const fileInput = document.getElementById("fileInput");
     const uploadBtn = document.getElementById("uploadBtn");
-    const imagesContainer = document.getElementById("imagesContainer");
+    const mediaContainer = document.getElementById("imagesContainer");
     const downloadAllBtn = document.getElementById("downloadAllBtn");
+    const toggleLinks = document.getElementById("toggleLinks");
+    const linkSection = document.getElementById("linkSection");
 
     // Função para salvar dados no LocalStorage
     function saveToLocalStorage(key, data) {
@@ -17,44 +19,63 @@ document.addEventListener("DOMContentLoaded", function () {
         return data ? JSON.parse(data) : null;
     }
 
-    // Função para carregar imagens salvas
-    function loadImages() {
-        const savedImages = loadFromLocalStorage("images");
-        if (savedImages) {
-            savedImages.forEach((imageSrc, index) => {
-                addImage(imageSrc, index);
+    // Função para carregar mídias salvas
+    function loadMedia() {
+        const savedMedia = loadFromLocalStorage("media");
+        if (savedMedia) {
+            savedMedia.forEach((mediaSrc, index) => {
+                addMedia(mediaSrc, index);
             });
         }
     }
 
-    // Função para adicionar imagem na página com um botão de exclusão
-    function addImage(imageSrc, index) {
-        const imgDiv = document.createElement("div");
-        imgDiv.classList.add("image-wrapper");
+    // Função para adicionar mídia (imagem ou vídeo) na página com um botão de exclusão
+    function addMedia(mediaSrc, index) {
+        const mediaDiv = document.createElement("div");
+        mediaDiv.classList.add("media-wrapper");
 
-        const img = document.createElement("img");
-        img.src = imageSrc;
-        img.classList.add("uploaded-image");
+        const mediaElement = mediaSrc.startsWith("data:video") ? document.createElement("video") : document.createElement("img");
+        mediaElement.src = mediaSrc;
+        mediaElement.classList.add("uploaded-media");
+        if (mediaElement.tagName === "VIDEO") {
+            mediaElement.controls = true;
+        }
 
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Excluir";
         deleteBtn.classList.add("delete-btn");
 
-        // Evento de exclusão de imagem
+        // Evento de exclusão de mídia
         deleteBtn.addEventListener("click", function () {
-            deleteImage(index); // Remover do LocalStorage e do DOM
+            deleteMedia(index);
         });
 
-        imgDiv.appendChild(img);
-        imgDiv.appendChild(deleteBtn);
-        imagesContainer.appendChild(imgDiv);
+        // Evento de visualização em tela cheia
+        mediaElement.addEventListener("click", function() {
+            openFullscreen(mediaElement);
+        });
+
+        mediaDiv.appendChild(mediaElement);
+        mediaDiv.appendChild(deleteBtn);
+        mediaContainer.appendChild(mediaDiv);
     }
 
-    // Função para converter arquivo de imagem para Base64
+    // Função para abrir mídia em tela cheia
+    function openFullscreen(element) {
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.webkitRequestFullscreen) { /* Safari */
+            element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) { /* IE11 */
+            element.msRequestFullscreen();
+        }
+    }
+
+    // Função para converter arquivo para Base64
     function convertToBase64(file, callback) {
         const reader = new FileReader();
         reader.onloadend = function () {
-            callback(reader.result); // O resultado será a string Base64
+            callback(reader.result);
         };
         reader.readAsDataURL(file);
     }
@@ -101,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Evento para o botão de excluir pasta
         const deleteFolderBtn = folderDiv.querySelector(".deleteFolderBtn");
         deleteFolderBtn.addEventListener("click", function () {
-            deleteFolder(folderName); // Excluir a pasta
+            deleteFolder(folderName);
         });
     }
 
@@ -116,8 +137,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Evento de exclusão de link
         deleteLinkBtn.addEventListener("click", function () {
-            fileDiv.remove(); // Remove do DOM
-            removeLinkFromFolder(fileUrl); // Remove do LocalStorage
+            fileDiv.remove();
+            removeLinkFromFolder(fileUrl);
         });
 
         fileDiv.appendChild(deleteLinkBtn);
@@ -130,11 +151,10 @@ document.addEventListener("DOMContentLoaded", function () {
         folders.forEach(folder => {
             const index = folder.files.indexOf(fileUrl);
             if (index !== -1) {
-                folder.files.splice(index, 1); // Remove o link do array
+                folder.files.splice(index, 1);
             }
         });
 
-        // Salvar as pastas atualizadas no LocalStorage
         saveToLocalStorage("folders", folders);
     }
 
@@ -146,25 +166,21 @@ document.addEventListener("DOMContentLoaded", function () {
         if (folderIndex !== -1) {
             folders[folderIndex].files.push(fileUrl);
         } else {
-            // Caso a pasta não exista por algum motivo, criar uma nova
             folders.push({ name: folderName, files: [fileUrl] });
         }
 
-        // Salvar as pastas atualizadas no LocalStorage
         saveToLocalStorage("folders", folders);
     }
 
     // Função para excluir uma pasta do LocalStorage e do DOM
     function deleteFolder(folderName) {
         let folders = loadFromLocalStorage("folders") || [];
-        folders = folders.filter(folder => folder.name !== folderName); // Remove a pasta
+        folders = folders.filter(folder => folder.name !== folderName);
 
-        // Salvar as pastas atualizadas no LocalStorage
         saveToLocalStorage("folders", folders);
 
-        // Recarregar as pastas
-        foldersContainer.innerHTML = ""; // Limpar todas as pastas exibidas
-        loadFolders(); // Recarregar todas as pastas atualizadas
+        foldersContainer.innerHTML = "";
+        loadFolders();
     }
 
     // Função para criar uma nova pasta
@@ -174,10 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const folders = loadFromLocalStorage("folders") || [];
             folders.push({ name: folderName, files: [] });
 
-            // Salvar pastas no LocalStorage
             saveToLocalStorage("folders", folders);
-
-            // Adicionar pasta ao DOM
             addFolder(folderName);
         }
     });
@@ -187,73 +200,61 @@ document.addEventListener("DOMContentLoaded", function () {
         fileInput.click();
     });
 
-    // Evento para enviar imagem e armazenar em Base64 no LocalStorage
+    // Evento para enviar mídia e armazenar em Base64 no LocalStorage
     fileInput.addEventListener("change", function () {
-        const files = fileInput.files; // Obter todos os arquivos
+        const files = fileInput.files;
         if (files.length > 0) {
-            // Converter cada arquivo de imagem para Base64
             Array.from(files).forEach(file => {
-                convertToBase64(file, function (base64Image) {
-                    const images = loadFromLocalStorage("images") || [];
-                    images.push(base64Image);
+                convertToBase64(file, function (base64Media) {
+                    const media = loadFromLocalStorage("media") || [];
+                    media.push(base64Media);
 
-                    // Salvar imagem em Base64 no LocalStorage
-                    saveToLocalStorage("images", images);
-
-                    // Adicionar imagem ao DOM
-                    addImage(base64Image, images.length - 1);
+                    saveToLocalStorage("media", media);
+                    addMedia(base64Media, media.length - 1);
                 });
             });
 
-            fileInput.value = ""; // Limpar o campo de entrada
+            fileInput.value = "";
         } else {
-            alert("Por favor, selecione uma imagem para enviar.");
+            alert("Por favor, selecione uma imagem ou vídeo para enviar.");
         }
     });
 
-    // Função para excluir uma imagem do LocalStorage e da página
-    function deleteImage(index) {
-        const images = loadFromLocalStorage("images") || [];
+    // Função para excluir uma mídia do LocalStorage e da página
+    function deleteMedia(index) {
+        const media = loadFromLocalStorage("media") || [];
 
         if (index > -1) {
-            images.splice(index, 1); // Remove a imagem do array
-
-            // Atualizar o LocalStorage
-            saveToLocalStorage("images", images);
-
-            // Recarregar a exibição de imagens
-            imagesContainer.innerHTML = ""; // Limpar todas as imagens exibidas
-            loadImages(); // Recarregar todas as imagens atualizadas
+            media.splice(index, 1);
+            saveToLocalStorage("media", media);
+            mediaContainer.innerHTML = "";
+            loadMedia();
         }
     }
 
     document.getElementById("clearAllBtn").addEventListener("click", function () {
-        const confirmation = confirm("Tem certeza de que deseja excluir todas as imagens?");
+        const confirmation = confirm("Tem certeza de que deseja excluir todas as mídias?");
         if (confirmation) {
-            // Limpar as imagens do LocalStorage
-            localStorage.removeItem("images");
-
-            // Limpar a exibição de imagens no DOM
-            imagesContainer.innerHTML = "";
-
-            alert("Todas as imagens foram removidas.");
+            localStorage.removeItem("media");
+            mediaContainer.innerHTML = "";
+            alert("Todas as mídias foram removidas.");
         }
     });
 
-    // Função para baixar todas as imagens
+    // Função para baixar todas as mídias
     downloadAllBtn.addEventListener("click", function () {
-        const images = loadFromLocalStorage("images") || [];
-        if (images.length > 0) {
+        const media = loadFromLocalStorage("media") || [];
+        if (media.length > 0) {
             const zip = new JSZip();
-            const folder = zip.folder("Imagens");
+            const folder = zip.folder("Media");
 
-            images.forEach((imageSrc, index) => {
-                const base64Data = imageSrc.split(",")[1]; // Pega apenas a parte Base64
-                folder.file(`imagem${index + 1}.png`, base64Data, { base64: true });
+            media.forEach((mediaSrc, index) => {
+                const base64Data = mediaSrc.split(",")[1];
+                const extension = mediaSrc.startsWith("data:video") ? "mp4" : "png";
+                folder.file(`media${index + 1}.${extension}`, base64Data, { base64: true });
             });
 
-            // Pergunta ao usuário o nome do arquivo zip
-            const zipName = prompt("Digite o nome do arquivo ZIP (sem extensão):", "imagens");
+            const zipName = prompt("Digite o nome do arquivo ZIP (sem extensão):", "media");
 
             zip.generateAsync({ type: "blob" }).then(function (content) {
                 const blob = new Blob([content], { type: "application/zip" });
@@ -263,11 +264,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 link.click();
             });
         } else {
-            alert("Não há imagens para baixar.");
+            alert("Não há mídias para baixar.");
         }
     });
 
-    // Carregar imagens e pastas ao inicializar
-    loadImages();
+    // Alternar seção de links
+    toggleLinks.addEventListener("click", function() {
+        linkSection.classList.toggle("hidden");
+        toggleLinks.classList.toggle("active");
+    });
+
+    // Inicializar a página
+    loadMedia();
     loadFolders();
+    linkSection.classList.add("hidden"); // Iniciar com a seção de links fechada
 });
