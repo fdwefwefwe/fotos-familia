@@ -254,6 +254,24 @@ footer {
         margin-left: 0; /* Remover margem à esquerda */
         margin-top: 5px; /* Espaço entre o botão e o texto */
     }
+    
+    .clickable {
+    cursor: pointer;
+}
+
+.collapsible-section {
+    max-height: 1000px; /* Adjust as needed */
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.collapsible-section.hidden {
+    max-height: 0;
+}
+
+#toggleLinks.active::after {
+    content: " (Fechado)";
+}
 
   
     footer {
