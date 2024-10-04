@@ -64,13 +64,21 @@ document.addEventListener("DOMContentLoaded", function () {
     function openFullscreen(element) {
         if (element.requestFullscreen) {
             element.requestFullscreen();
-        } else if (element.webkitRequestFullscreen) { /* Safari */
+        } else if (element.webkitRequestFullscreen) {
             element.webkitRequestFullscreen();
-        } else if (element.msRequestFullscreen) { /* IE11 */
+        } else if (element.msRequestFullscreen) {
             element.msRequestFullscreen();
         }
-    }
 
+        element.classList.add('fullscreen-media');
+
+        // Adicionar evento para remover a classe quando sair da tela cheia
+        document.addEventListener('fullscreenchange', function() {
+            if (!document.fullscreenElement) {
+                element.classList.remove('fullscreen-media');
+            }
+        });
+    }
     // Função para converter arquivo para Base64
     function convertToBase64(file, callback) {
         const reader = new FileReader();
@@ -272,10 +280,13 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleLinks.addEventListener("click", function() {
         linkSection.classList.toggle("hidden");
         toggleLinks.classList.toggle("active");
+        
+        // Alternar a classe para rotacionar a seta
+        const arrow = toggleLinks.querySelector('.arrow');
+        arrow.classList.toggle('rotated');
     });
 
     // Inicializar a página
     loadMedia();
     loadFolders();
-    linkSection.classList.add("hidden"); // Iniciar com a seção de links fechada
-});
+    linkSection.classList.add("hidden");
