@@ -6,66 +6,62 @@
     <meta name="description" content="Gerencie e organize suas imagens facilmente com pastas dinâmicas e links de arquivos">
     <title>FOTOS E LINKS</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Ícone padrão -->
     <link rel="icon" href="favicon_io/favicon.ico" type="image/x-icon">
+    
+    <!-- Ícones PNG para dispositivos de alta resolução -->
     <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+    
+    <!-- Ícone para dispositivos Apple -->
     <link rel="apple-touch-icon" href="favicon_io/apple-touch-icon.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- Lightbox CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 <body>
     <header>
-        <h1>Juntar imagens e vídeos</h1>
+        <h1>Juntar imagens</h1>
     </header>
     <main>
         <div class="separator"></div>
-        <h2>Insira suas imagens e vídeos!</h2>
+        <h2>Insira suas imagens!</h2>
         
         <div id="uploadSection">
-            <input type="file" id="fileInput" class="file-input" accept="image/*,video/*" multiple>
+            <input type="file" id="fileInput" class="file-input" accept="image/*" multiple>
             <button id="uploadBtn" class="upload-image-btn mobile-button">
-                <span class="material-icons">image_search</span> Enviar Mídias
-            </button>
+    <span class="material-icons">image_search</span> Enviar Imagens
+</button>
 
-            <div id="uploadedMedia">
-                <h2>Mídias Enviadas</h2>
-                <div id="mediaContainer"></div>
+            <div id="uploadedImages">
+                <h2>Imagens Enviadas</h2>
+                <div id="imagesContainer"></div>
             </div>
             <button id="downloadAllBtn" class="upload-image-btn">
-                <span class="material-icons">download</span> Baixar Todas as Imagens
-            </button>
+    <span class="material-icons">download</span> Baixar Todas as Imagens
+</button>
 
             <button id="clearAllBtn">
-                <span class="material-icons">delete_forever</span> Excluir todas as Mídias
-            </button>
+    <span class="material-icons">delete_forever</span> Excluir todas as Imagens
+</button>
 
             <div id="loadingIndicator" class="loading hidden">Carregando...</div>
 
             <div class="separator"></div>
             <br>
+            <br>
             <h2 id="toggleLinks" class="clickable">Seção de guardar links: (em testes)</h2>
             <br>
+            <br>
             <div id="linkSection" class="collapsible-section">
-                <button id="newFolderBtn" class="btn">Nova pasta de links</button>
-                <section id="foldersContainer" class="folders-wrapper"></section>
-            </div>
+    <button id="newFolderBtn" class="btn">Nova pasta de links</button>
+    <section id="foldersContainer" class="folders-wrapper"></section>
+</div>
     </main>
-
-    <!-- Lightbox modal container -->
-    <div id="lightbox" class="lightbox hidden">
-        <span class="material-icons" id="lightbox-close">close</span>
-        <div class="lightbox-content"></div>
-    </div>
-
     <footer>
-        <p>&copy; Feito por Giovanni <span class="material-icons">bolt</span></p>
-    </footer>
+    <p>&copy; Feito por Giovanni <span class="material-icons">bolt</span></p>
+</footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
