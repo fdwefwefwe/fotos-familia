@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
         mediaContainer.appendChild(mediaDiv);
     }
 
-    // Função para abrir mídia em tela cheia
+    // Função para abrir mídia em tela cheia com borda
     function openFullscreen(element) {
         if (element.requestFullscreen) {
             element.requestFullscreen();
@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
     // Função para converter arquivo para Base64
     function convertToBase64(file, callback) {
         const reader = new FileReader();
@@ -276,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Alternar seção de links
+    // Alternar seção de links com animação de seta
     toggleLinks.addEventListener("click", function() {
         linkSection.classList.toggle("hidden");
         toggleLinks.classList.toggle("active");
@@ -289,4 +290,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Inicializar a página
     loadMedia();
     loadFolders();
-    linkSection.classList.add("hidden");
+    linkSection.classList.add("hidden"); // Iniciar com a seção de links fechada
+
+    // Adicionar seta ao toggleLinks
+    const arrow = document.createElement('span');
+    arrow.classList.add('arrow');
+    arrow.innerHTML = '&#9660;'; // Código Unicode para uma seta para baixo
+    toggleLinks.appendChild(arrow);
+});
